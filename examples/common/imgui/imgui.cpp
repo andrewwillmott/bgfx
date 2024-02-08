@@ -474,6 +474,9 @@ struct OcornutImguiContext
 			io.AddKeyEvent(m_keyMap[ii], inputGetKeyState(entry::Key::Enum(ii) ) );
 			io.SetKeyEventNativeData(m_keyMap[ii], 0, 0, ii);
 		}
+
+		while (const uint8_t* ch = inputGetChar())
+			io.AddInputCharacter(*ch);
 #endif // USE_ENTRY
 
 		ImGui::NewFrame();

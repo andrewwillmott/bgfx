@@ -91,6 +91,7 @@ namespace entry
 			, m_mouseLock(NULL)
 		{
 			s_translateKey[27]             = Key::Esc;
+			s_translateKey[uint8_t('\n')]  = Key::Return;
 			s_translateKey[uint8_t('\r')]  = Key::Return;
 			s_translateKey[uint8_t('\t')]  = Key::Tab;
 			s_translateKey[127]            = Key::Backspace;
@@ -275,6 +276,8 @@ namespace entry
 			case NSUpArrowFunctionKey:     return Key::Up;
 			case NSDownArrowFunctionKey:   return Key::Down;
 
+			case NSInsertFunctionKey:      return Key::Insert;
+			case NSDeleteFunctionKey:      return Key::Delete;
 			case NSPageUpFunctionKey:      return Key::PageUp;
 			case NSPageDownFunctionKey:    return Key::PageDown;
 			case NSHomeFunctionKey:        return Key::Home;
@@ -364,6 +367,13 @@ namespace entry
 					m_eventQueue.postMouseEvent(handle, m_mx, m_my, m_scroll);
 					break;
 
+				case NSEventTypeFlagsChanged:
+					{
+						uint8_t modifiers = translateModifiers(int([event modifierFlags]));
+						m_eventQueue.postKeyEvent(handle, Key::None, modifiers, true);
+					}
+					break;
+
 				case NSEventTypeKeyDown:
 					{
 						uint8_t modifiers = 0;
@@ -379,7 +389,6 @@ namespace entry
 							}
 							else
 							{
-								enum { ShiftMask = Modifier::LeftShift|Modifier::RightShift };
 								m_eventQueue.postCharEvent(handle, 1, pressedChar);
 								m_eventQueue.postKeyEvent(handle, key, modifiers, true);
 								return false;
