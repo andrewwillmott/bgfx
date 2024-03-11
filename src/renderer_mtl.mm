@@ -702,6 +702,15 @@ BX_STATIC_ASSERT(BX_COUNTOF(s_accessNames) == Access::Count, "Invalid s_accessNa
 					? BGFX_CAPS_HDR10
 					: 0
 					;
+
+			#if defined(MAC_OS_X_VERSION_MAX_ALLOWED) && (MAC_OS_X_VERSION_MAX_ALLOWED >= 1070)
+					// Whether current window has retina support may change over app lifetime
+					// due to screen locations changes, so we set the flag as long as
+					// it supports backing scale at all.
+					NSWindow* nsWindow = (NSWindow*)g_platformData.nwh;
+					if ([nsWindow respondsToSelector:@selector(backingScaleFactor)])
+						g_caps.supported |= BGFX_CAPS_HIDPI;
+			#endif
 			}
 
 			g_caps.limits.maxTextureLayers = 2048;
@@ -3395,6 +3404,9 @@ BX_STATIC_ASSERT(BX_COUNTOF(s_accessNames) == Access::Count, "Invalid s_accessNa
 								m_metalLayer = [CAMetalLayer layer];
 								[contentView setLayer:m_metalLayer];
 							}
+
+							if ([contentView respondsToSelector:@selector(backingScaleFactor)])
+								m_metalLayer.contentsScale = [contentView backingScaleFactor];
 						};
 
 						if ([NSThread isMainThread])
