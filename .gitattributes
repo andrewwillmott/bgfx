@@ -1,3 +1,7 @@
+examples export-ignore
+bindings export-ignore
+.gitattributes export-ignore
+.github export-ignore
 *.bin binary diff=hex
 *.c   eol=lf
 *.cpp eol=lf
