@@ -4407,7 +4407,7 @@ namespace bgfx
 
 			if (!isValid(_vsh) )
 			{
-				BX_WARN(false, "Compute shader is invalid (vsh %d).", _vsh.idx);
+				BX_WARN(false, "Vertex shader is invalid (vsh %d).", _vsh.idx);
 				return BGFX_INVALID_HANDLE;
 			}
 
