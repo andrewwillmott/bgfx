@@ -2865,6 +2865,8 @@ namespace bgfx { namespace gl
 				{
 					glPolygonMode = stubPolygonMode;
 				}
+				else
+					g_caps.supported |= BGFX_CAPS_WIREFRAME_STATE;
 
 				if (s_extension[Extension::ARB_copy_image].m_supported
 				||  s_extension[Extension::EXT_copy_image].m_supported
@@ -7949,6 +7951,7 @@ namespace bgfx { namespace gl
 					 | BGFX_STATE_DEPTH_TEST_MASK
 					 | BGFX_STATE_LINEAA
 					 | BGFX_STATE_MSAA
+					 | BGFX_STATE_WIREFRAME
 					 | BGFX_STATE_POINT_SIZE_MASK
 					 | BGFX_STATE_PT_MASK
 					 | BGFX_STATE_WRITE_A
@@ -8177,6 +8180,15 @@ namespace bgfx { namespace gl
 						}
 
 						blendFactor = draw.m_rgba;
+					}
+
+					if (BGFX_STATE_WIREFRAME & changedFlags)
+					{
+						GL_CHECK(glPolygonMode(GL_FRONT_AND_BACK
+							, (BGFX_STATE_WIREFRAME & newFlags)
+							? GL_LINE
+							: GL_FILL
+							) );
 					}
 
 					const uint64_t pt = newFlags&BGFX_STATE_PT_MASK;

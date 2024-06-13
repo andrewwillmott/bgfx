@@ -130,6 +130,7 @@
 #define BGFX_STATE_MSAA                           UINT64_C(0x0100000000000000) //!< Enable MSAA rasterization.
 #define BGFX_STATE_LINEAA                         UINT64_C(0x0200000000000000) //!< Enable line AA rasterization.
 #define BGFX_STATE_CONSERVATIVE_RASTER            UINT64_C(0x0400000000000000) //!< Enable conservative rasterization.
+#define BGFX_STATE_WIREFRAME                      UINT64_C(0x0800000000000000) //!< Enable wireframe rendering (fill mode).
 #define BGFX_STATE_NONE                           UINT64_C(0x0000000000000000) //!< No state.
 #define BGFX_STATE_FRONT_CCW                      UINT64_C(0x0000008000000000) //!< Front counter-clockwise (default is clockwise).
 #define BGFX_STATE_BLEND_INDEPENDENT              UINT64_C(0x0000000400000000) //!< Enable blend independent.
@@ -493,7 +494,8 @@
 #define BGFX_CAPS_VERTEX_ID                       UINT64_C(0x0000000008000000) //!< Rendering with VertexID only is supported.
 #define BGFX_CAPS_VIEWPORT_LAYER_ARRAY            UINT64_C(0x0000000010000000) //!< Viewport layer is available in vertex shader.
 #define BGFX_CAPS_DRAW_INDIRECT_COUNT             UINT64_C(0x0000000020000000) //!< Draw indirect with indirect count is supported.
-#define BGFX_CAPS_CUDA_INTEROP		             		UINT64_C(0x0000000800000000) //!< CUDA Interop is supported.
+#define BGFX_CAPS_WIREFRAME_STATE                 UINT64_C(0x0000000040000000) //!< BGFX_STATE_WIREFRAME is supported
+#define BGFX_CAPS_CUDA_INTEROP                    UINT64_C(0x0000000800000000) //!< CUDA Interop is supported.
 /// All texture compare modes are supported.
 #define BGFX_CAPS_TEXTURE_COMPARE_ALL (0 \
 	| BGFX_CAPS_TEXTURE_COMPARE_RESERVED \

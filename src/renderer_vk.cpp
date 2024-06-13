@@ -1697,6 +1697,7 @@ VK_IMPORT_INSTANCE
 					| BGFX_CAPS_VERTEX_ATTRIB_HALF
 					| BGFX_CAPS_VERTEX_ATTRIB_UINT10
 					| BGFX_CAPS_VERTEX_ID
+					| BGFX_CAPS_WIREFRAME_STATE
 					| (externalMemory ? BGFX_CAPS_CUDA_INTEROP : 0)
 					);
 
@@ -3196,6 +3197,7 @@ VK_IMPORT_DEVICE
 		void setRasterizerState(VkPipelineRasterizationStateCreateInfo& _desc, uint64_t _state, bool _wireframe = false)
 		{
 			const uint32_t cull = (_state&BGFX_STATE_CULL_MASK) >> BGFX_STATE_CULL_SHIFT;
+			_wireframe = _wireframe || (_state&BGFX_STATE_WIREFRAME);
 
 			_desc.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 			_desc.pNext = NULL;
@@ -3732,6 +3734,7 @@ VK_IMPORT_DEVICE
 				| BGFX_STATE_MSAA
 				| (m_lineAASupport ? BGFX_STATE_LINEAA : 0)
 				| (g_caps.supported & BGFX_CAPS_CONSERVATIVE_RASTER ? BGFX_STATE_CONSERVATIVE_RASTER : 0)
+				| BGFX_STATE_WIREFRAME
 				| BGFX_STATE_PT_MASK
 				;
 

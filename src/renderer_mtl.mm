@@ -657,6 +657,7 @@ BX_STATIC_ASSERT(BX_COUNTOF(s_accessNames) == Access::Count, "Invalid s_accessNa
 				| BGFX_CAPS_VERTEX_ATTRIB_HALF
 				| BGFX_CAPS_VERTEX_ATTRIB_UINT10
 				| BGFX_CAPS_VERTEX_ID
+				| BGFX_CAPS_WIREFRAME_STATE
 				);
 
 			if (BX_ENABLED(BX_PLATFORM_IOS) )
@@ -4660,6 +4661,7 @@ BX_STATIC_ASSERT(BX_COUNTOF(s_accessNames) == Access::Count, "Invalid s_accessNa
 				if ( (0
 					 | BGFX_STATE_CULL_MASK
 					 | BGFX_STATE_FRONT_CCW
+					 | BGFX_STATE_WIREFRAME
 					 | BGFX_STATE_ALPHA_REF_MASK
 					 | BGFX_STATE_PT_MASK
 					 ) & changedFlags)
@@ -4670,6 +4672,11 @@ BX_STATIC_ASSERT(BX_COUNTOF(s_accessNames) == Access::Count, "Invalid s_accessNa
 							? MTLWindingCounterClockwise
 							: MTLWindingClockwise
 							);
+					}
+
+					if (BGFX_STATE_WIREFRAME & changedFlags)
+					{
+						rce.setTriangleFillMode((newFlags & BGFX_STATE_WIREFRAME) ? MTLTriangleFillModeLines : MTLTriangleFillModeFill);
 					}
 
 					if (BGFX_STATE_CULL_MASK & changedFlags)
