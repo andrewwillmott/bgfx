@@ -2082,7 +2082,7 @@ BGFX_C_API void bgfx_get_external_semaphore(bgfx_cuda_semaphore_t* _cudaSemaphor
  * @remarks Availability depnds on `BGFX_CAPS_CUDA_INTEROP`
  *
 */
-BGFX_C_API void bgfx_set_wait_external();
+BGFX_C_API void bgfx_set_wait_external(void);
 
 /**
  * The renderer will signal the end of the graphcis workload to the external semaphore
@@ -2092,7 +2092,7 @@ BGFX_C_API void bgfx_set_wait_external();
  * @remarks Availability depnds on `BGFX_CAPS_CUDA_INTEROP`
  *
 */
-BGFX_C_API void bgfx_set_signal_external();
+BGFX_C_API void bgfx_set_signal_external(void);
 
 /**
  * Create frame buffer (simple).
