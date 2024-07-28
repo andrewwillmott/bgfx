@@ -1236,18 +1236,20 @@ BX_STATIC_ASSERT(BX_COUNTOF(s_accessNames) == Access::Count, "Invalid s_accessNa
 
 			uint32_t width  = m_screenshotTarget.width();
 			uint32_t height = m_screenshotTarget.height();
-			uint32_t length = width*height*4;
+			uint32_t pixStride = m_screenshotTarget.pixelFormat() == MTLPixelFormatRGBA16Float ? 8 : 4;  // handle BGFX_RESET_HDR10
+			uint32_t rowStride = width*pixStride;
+			uint32_t length = height*rowStride;
 			uint8_t* data = (uint8_t*)BX_ALLOC(g_allocator, length);
 
 			MTLRegion region = { { 0, 0, 0 }, { width, height, 1 } };
 
-			m_screenshotTarget.getBytes(data, 4*width, 0, region, 0, 0);
+			m_screenshotTarget.getBytes(data, rowStride, 0, region, 0, 0);
 
 			g_callback->screenShot(
 				  _filePath
 				, m_screenshotTarget.width()
 				, m_screenshotTarget.height()
-				, width*4
+				, rowStride
 				, data
 				, length
 				, false
