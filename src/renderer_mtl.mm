@@ -704,6 +704,8 @@ BX_STATIC_ASSERT(BX_COUNTOF(s_accessNames) == Access::Count, "Invalid s_accessNa
 					: 0
 					;
 
+			// I do not understand why MAC_OS_X_VERSION_MAX_ALLOWED is defined on iOS but \o/
+			#if defined(__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__)
 			#if defined(MAC_OS_X_VERSION_MAX_ALLOWED) && (MAC_OS_X_VERSION_MAX_ALLOWED >= 1070)
 					// Whether current window has retina support may change over app lifetime
 					// due to screen locations changes, so we set the flag as long as
@@ -711,6 +713,7 @@ BX_STATIC_ASSERT(BX_COUNTOF(s_accessNames) == Access::Count, "Invalid s_accessNa
 					NSWindow* nsWindow = (NSWindow*)g_platformData.nwh;
 					if ([nsWindow respondsToSelector:@selector(backingScaleFactor)])
 						g_caps.supported |= BGFX_CAPS_HIDPI;
+			#endif
 			#endif
 			}
 
