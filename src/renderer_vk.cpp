@@ -1466,10 +1466,10 @@ VK_IMPORT_INSTANCE
 					vkGetPhysicalDeviceProperties(allPhysicalDevices[ii], &pdp);
 
 					// ignore all CPU / software implementations
+#if BGFX_CONFIG_CUDA_INTEROP
 					if (pdp.deviceType == VK_PHYSICAL_DEVICE_TYPE_CPU)
 						continue;
 
-#if BGFX_CONFIG_CUDA_INTEROP
 					// if cuda interop is enabled, filter out all non-nvidia gpus, as they don't support cuda
 					if (pdp.vendorID != 0x10de)
 						continue;
@@ -1478,6 +1478,12 @@ VK_IMPORT_INSTANCE
 					physicalDevices[jj] = allPhysicalDevices[ii];
 					++jj;
 					++numPhysicalDevices;
+				}
+
+				if (numPhysicalDevices == 0)
+				{
+					BX_TRACE("Init error: No compatible physical devices found.");
+					goto error;
 				}
 
 				Extension physicalDeviceExtensions[VK_MAX_PHYSICAL_DEVICES][Extension::Count];
